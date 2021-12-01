@@ -341,7 +341,9 @@ module.exports = {
           JOIN db_parshare.transaction_parcel ON db_parshare.transactions.id_transaction = db_parshare.transaction_parcel.id_transaction
         WHERE
           db_parshare.transactions.transaction_date BETWEEN CURDATE() - INTERVAL ${period} DAY
-          AND db_parshare.transactions.status = "confirmed"
+          AND db_parshare.transactions.status = "Confirmed"
+          AND db_parshare.transactions.status != "Rejected"
+          AND db_parshare.transactions.status != "Pending"
           AND db_parshare.transaction_parcel.id_product = ${req.query.id}
         GROUP BY
           date_format(
@@ -356,7 +358,7 @@ module.exports = {
               data: error,
             });
           } else {
-            const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+            const month = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
             const d = new Date();
             let data = []
             d.setMonth(d.getMonth()+1)

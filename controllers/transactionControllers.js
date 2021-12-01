@@ -301,7 +301,9 @@ module.exports = {
         db_parshare.transactions
       WHERE
         db_parshare.transactions.transaction_date BETWEEN CURDATE() - INTERVAL ${period} DAY
-        AND db_parshare.transactions.status = "confirmed"
+        AND db_parshare.transactions.status = "Confirmed"
+        AND db_parshare.transactions.status != "Rejected"
+        AND db_parshare.transactions.status != "Pending"
       GROUP BY
         date_format(
           db_parshare.transactions.transaction_date,
@@ -316,6 +318,7 @@ module.exports = {
           });
         } else {
           const month = [
+            "",
             "Jan",
             "Feb",
             "Mar",
